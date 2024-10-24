@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="https://blog.yyrainbow.com">Blog</a>    
+    <a href="https://art.yyrainbow.com">Art</a>
+
+    <p>バックエンドのサーバー構築で学んだこと</p>
+    <ul>
+        <li>WSL2 ・ Ubuntuのインストール</li>
+        <li>Windowsのファイアフォールの設定 ・ ポートの開け閉め・Linux側ufw</li>
+        <li>Windows内のポート転送・ルータ側のポート転送</li>
+        <li>SSH接続の方法・公開鍵認証, SSHの設定ファイル周り(クライアント側:~/.ssh/config, サーバー側:/etc/ssh/sshd_config)</li>
+        <li>ドメイン取得・DNSサーバーの設定(Aレコード・CNAMEレコード・TXTレコード)</li>
+        <li>nginxの設定・サーバーブロックの書き方(サブドメインの設定方法・ドキュメントルートの設定・証明書の設定・locationによるディレクトリごとの個別設定・httpのサイトにアクセスした場合のリダイレクト設定)</li>
+        <li>php-fpmの設定・php-fpmとnginxで連携をとる方法(nginxのサーバーブロックに追記する必要がある.ソケットパスの指定,ユーザーの指定, www.confとサーバーブロックの設定を一致させる必要あり )</li>
+        <li>marianDBベースの初期設定, DB作成・削除とDBのユーザーアカウント作成・削除・DBへのアクセス権付与</li>
+        <li>php-mysqlのインストール(PHPスクリプトからMySQL/MariaDBデータベースに接続するための拡張モジュール)</li>
+        <li>Linuxのグループ・ユーザーの概念とファイルのアクセス権の概念・chmod 664, chown,ls -l など</li>
+        <li>Gitのリモートリポジトリを作成する方法と自分のサーバーで管理する方法・bareリポジトリー・Non bareリポジトリー,自分のサーバーのリポジトリーはローカルかリモートか</li>
+        <li>Windowsでタスクスケジューラでポート転送とWindowsファイアーウォールの設定をログオン時に自動で実行。</li>
+    </ul>
+
+    つまずいたポイント
+    <ul>
+        <li>Windowsのファイアフォールの設定でポートを開けたつもりだったのに開いてない... ファイアーウォールを無効にしても無意味で, ポート開放しないと意味ない. 勝手にポートの設定が一定期間経つと勝手に削除される. タスクスケジューラで設定しても開放されないので, これは最悪. だいたい, ローカルのPCでアクセスできるのにLAN内のMacですらアクセスできないときはたいたいこいつが原因。</li>
+        <li>DNSサーバーは反映されるまで結構時間かかる...5分くらい...Aレコードは長い?</li>
+        <li>nginxの設定は起動時に読み込まれるから設定ファイルを描き直したら service nginx restartする. これはphp-fpmとかsshとかも同じ.</li>
+        <li>nginxがクライアントに公開するWebサーバーのファイルやディレクトリーLocationで設定しないといけない... そうしないと403 forbidden</li>
+        <li>nginxが読み込むファイル自体はnginxのユーザーアカウントにアクセス権限をつけるか, 権限のあるユーザーをnginx.confから設定する必要がある.</li>
+        <li>nginxの設定も正しいのになぜか特定のディレクトリーでだけ404 Not Foundになる... ファイルだけでなく, "ディレクトリーそのもの"のアクセス権とファイルのアクセス権をチェック。</li>
+        <li>nginixのindexは親ディレクトリーだけでなく, その子供のディレクトリーについても最初に適用されるされる。だから, indexを適切に設定しないと, そのディレクトリーに直接URLでアクセスしたときに403 Forbiddenが生じる。</li>
+    </ul>
+
+</html>
